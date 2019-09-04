@@ -13,6 +13,7 @@ use Matchish\ScoutElasticSearch\ElasticSearch\SearchFactory;
 use Matchish\ScoutElasticSearch\ElasticSearch\SearchResults;
 use Matchish\ScoutElasticSearch\ElasticSearch\Params\Indices\Refresh;
 use Matchish\ScoutElasticSearch\ElasticSearch\EloquentHitsIteratorAggregate;
+use Matchish\ScoutElasticSearch\ElasticSearch\HitsIteratorAggregate;
 use Matchish\ScoutElasticSearch\ElasticSearch\Params\Search as SearchParams;
 
 final class ElasticSearchEngine extends Engine
@@ -102,7 +103,12 @@ final class ElasticSearchEngine extends Engine
      */
     public function map(BaseBuilder $builder, $results, $model)
     {
-        $hits = new EloquentHitsIteratorAggregate($results, $builder->queryCallback);
+        // $hits = new EloquentHitsIteratorAggregate($results, $builder->queryCallback);
+
+        $hits = app()->makeWith(HitsIteratorAggregate::class, 
+                    ['results' => $results, 
+                    'callable' => $builder->queryCallback
+                    ]);
 
         return new Collection($hits);
     }
