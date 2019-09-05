@@ -25,8 +25,4 @@
             <directory suffix=".php">./src</directory>
         </whitelist>
     </filter>
-    <!-- Just for my local use with my app -->
-    <php>
-        <env name="ELASTICSEARCH_HOST" value="elasticsearch7:9200"/>
-    </php>
 </phpunit>

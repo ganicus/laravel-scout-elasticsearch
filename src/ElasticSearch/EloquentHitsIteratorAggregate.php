@@ -72,5 +72,4 @@ final class EloquentHitsIteratorAggregate implements \IteratorAggregate
 
         return new \ArrayIterator($hits);
     }
-
 }

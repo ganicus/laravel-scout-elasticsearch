@@ -11,9 +11,8 @@ use ONGR\ElasticsearchDSL\Query\MatchAllQuery;
 use Matchish\ScoutElasticSearch\ElasticSearch\Params\Bulk;
 use Matchish\ScoutElasticSearch\ElasticSearch\SearchFactory;
 use Matchish\ScoutElasticSearch\ElasticSearch\SearchResults;
-use Matchish\ScoutElasticSearch\ElasticSearch\Params\Indices\Refresh;
-use Matchish\ScoutElasticSearch\ElasticSearch\EloquentHitsIteratorAggregate;
 use Matchish\ScoutElasticSearch\ElasticSearch\HitsIteratorAggregate;
+use Matchish\ScoutElasticSearch\ElasticSearch\Params\Indices\Refresh;
 use Matchish\ScoutElasticSearch\ElasticSearch\Params\Search as SearchParams;
 
 final class ElasticSearchEngine extends Engine
@@ -28,8 +27,7 @@ final class ElasticSearchEngine extends Engine
     /**
      * Create a new engine instance.
      *
-     * @param  \Elasticsearch\Client $elasticsearch
-     * @return void
+     * @param \Elasticsearch\Client $elasticsearch
      */
     public function __construct(\Elasticsearch\Client $elasticsearch)
     {
@@ -103,10 +101,9 @@ final class ElasticSearchEngine extends Engine
      */
     public function map(BaseBuilder $builder, $results, $model)
     {
-
-        $hits = app()->makeWith(HitsIteratorAggregate::class, 
-                    ['results' => $results, 
-                    'callback' => $builder->queryCallback
+        $hits = app()->makeWith(HitsIteratorAggregate::class,
+                    ['results' => $results,
+                    'callback' => $builder->queryCallback,
                     ]);
 
         return new Collection($hits);
@@ -122,7 +119,8 @@ final class ElasticSearchEngine extends Engine
 
     /**
      * @param BaseBuilder $builder
-     * @param array $options
+     * @param array       $options
+     *
      * @return SearchResults|mixed
      */
     private function performSearch(BaseBuilder $builder, $options = [])

@@ -1,13 +1,18 @@
 <?php
 
 return [
-    'host' => env('ELASTICSEARCH_HOST'),
     'indices' => [
         'mappings' => [
             'default' => [
                 'properties' => [
-                    'id' => [
-                        'type' => 'keyword',
+                    'created_at' => [
+                        'type' => 'date',
+                    ],
+                    'updated_at' => [
+                        'type' => 'date',
+                    ],
+                    'deleted_at' => [
+                        'type' => 'date',
                     ],
                 ],
             ],
