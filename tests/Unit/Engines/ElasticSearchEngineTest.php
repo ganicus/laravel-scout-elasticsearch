@@ -8,7 +8,6 @@ use Tests\TestCase;
 use Elasticsearch\Client;
 use Laravel\Scout\Builder;
 use Matchish\ScoutElasticSearch\Engines\ElasticSearchEngine;
-use Matchish\ScoutElasticSearch\ElasticSearch\HitsIteratorAggregate;
 
 class ElasticSearchEngineTest extends TestCase
 {
@@ -48,15 +47,13 @@ class ElasticSearchEngineTest extends TestCase
     {
         $builder = new Builder(new Product(), 'zonga');
         $spy = new \stdClass();
-        $spy->executed = false;
-        
         $builder->query(function ($query) use ($spy) {
             $spy->executed = true;
 
             return $query;
         });
-
-        $results = [
+        $engine = new ElasticSearchEngine(app(Client::class));
+        $engine->map($builder, [
             'hits' => [
                 'hits' => [
                     [
@@ -69,11 +66,7 @@ class ElasticSearchEngineTest extends TestCase
                     ], ],
                 ],
                 'total' => 2,
-            ]
-        ];
-
-        $engine = new ElasticSearchEngine(app(Client::class));
-        $engine->map($builder, $results, new Product());
+            ], ], new Product());
         $this->assertTrue($spy->executed);
     }
 }

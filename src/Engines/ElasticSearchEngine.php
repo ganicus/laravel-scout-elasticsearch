@@ -103,11 +103,10 @@ final class ElasticSearchEngine extends Engine
      */
     public function map(BaseBuilder $builder, $results, $model)
     {
-        // $hits = new EloquentHitsIteratorAggregate($results, $builder->queryCallback);
 
         $hits = app()->makeWith(HitsIteratorAggregate::class, 
                     ['results' => $results, 
-                    'callable' => $builder->queryCallback
+                    'callback' => $builder->queryCallback
                     ]);
 
         return new Collection($hits);
